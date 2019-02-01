@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 class UneFenetre extends JFrame implements ActionListener
 {
-    private final int ROWS=2, COLS=2;
+    private final int ROWS=5, COLS=5;
     UnMobile[] mobiles;
     JButton controlMobiles[];
     Thread tasks[];
