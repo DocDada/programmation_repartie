@@ -17,7 +17,8 @@ class UnMobile extends JPanel implements Runnable
     public void run()
     {
         boolean toTheRight = true;
-        for (sonDebDessin=0;;)
+        sonDebDessin = 0;
+        while (true)
         {
             repaint();
             try {Thread.sleep(sonTemps);}
