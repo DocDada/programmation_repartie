@@ -8,6 +8,7 @@ class UneFenetre extends JFrame implements ActionListener
     UnMobile[] mobiles;
     JButton controlMobiles[];
     Thread tasks[];
+    private boolean moving[];
     private String buttonText = "Arrêt / Relance";
 
     private final int LARG=400, HAUT=250;
@@ -22,6 +23,7 @@ class UneFenetre extends JFrame implements ActionListener
         controlMobiles = new JButton[ROWS];
         mobiles = new UnMobile[ROWS];
         tasks = new Thread[ROWS];
+        moving = new boolean[ROWS];
 
         for (int r = 0; r != ROWS; r++)
         {
@@ -31,6 +33,8 @@ class UneFenetre extends JFrame implements ActionListener
             mobiles[r] = new UnMobile(LARG, HAUT);
 
             tasks[r] = new Thread(this.mobiles[r]);
+
+            moving[r] = true;
 
             tasks[r].start();
 
@@ -49,9 +53,10 @@ class UneFenetre extends JFrame implements ActionListener
         int i;
         for (i = 0; e.getSource() != controlMobiles[i] && i != ROWS; i++);
 
-        if (tasks[i].isInterrupted())
-            tasks[i].resume();
-        else
+        if (moving[i])
             tasks[i].suspend();
+        else
+            tasks[i].resume();
+        moving[i] = !moving[i];
     }
 }
