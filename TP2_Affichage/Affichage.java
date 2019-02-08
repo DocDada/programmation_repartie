@@ -23,8 +23,8 @@ public class Affichage extends Thread {
 
     public void run() {
         //synchronized(mutex) {
-            System.out.println("J'entre en section critique");
             mutex.syncWait();
+            System.out.println("J'entre en section critique");
 
             for (int i = 0; i != texte.length(); i++){
                 // on affiche le texte, caractère par caractère
