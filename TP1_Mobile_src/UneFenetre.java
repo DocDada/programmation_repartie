@@ -4,14 +4,13 @@ import java.awt.event.*;
 
 class UneFenetre extends JFrame implements ActionListener
 {
-    private final int ROWS=5, COLS=5;
+    private final int ROWS = 3, COLS = 1, MOBILES = ROWS;
     UnMobile[] mobiles;
-    JButton controlMobiles[];
     Thread tasks[];
-    private boolean moving[];
     private String buttonText = "Arrêt / Relance";
 
     private final int LARG=400, HAUT=250;
+    private final int LARGEUR_FENETRE = 900, LONGUEUR_FENETRE = 700;
 
     public UneFenetre()
     {
@@ -20,43 +19,26 @@ class UneFenetre extends JFrame implements ActionListener
         Container container = getContentPane();
         container.setLayout(new GridLayout(ROWS, COLS));
 
-        controlMobiles = new JButton[ROWS];
-        mobiles = new UnMobile[ROWS];
-        tasks = new Thread[ROWS];
-        moving = new boolean[ROWS];
+        mobiles = new UnMobile[MOBILES];
+        tasks = new Thread[MOBILES];
 
-        for (int r = 0; r != ROWS; r++)
+        for (int r = 0; r != MOBILES; r++)
         {
-            controlMobiles[r] = new JButton(buttonText);
-            controlMobiles[r].addActionListener(this);
-
             mobiles[r] = new UnMobile(LARG, HAUT);
 
             tasks[r] = new Thread(this.mobiles[r]);
 
-            moving[r] = true;
-
             tasks[r].start();
 
             this.add(mobiles[r]);
-            this.add(controlMobiles[r]);
         }
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.setVisible(true);
-        this.setSize(900,700);
+
+        this.setSize(LARGEUR_FENETRE, LONGUEUR_FENETRE);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        int i;
-        for (i = 0; e.getSource() != controlMobiles[i] && i != ROWS; i++);
-
-        if (moving[i])
-            tasks[i].suspend();
-        else
-            tasks[i].resume();
-        moving[i] = !moving[i];
-    }
+    public void actionPerformed(ActionEvent e) { }
 }

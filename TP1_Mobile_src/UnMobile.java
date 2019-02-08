@@ -5,6 +5,7 @@ class UnMobile extends JPanel implements Runnable
 {
     int saLargeur, saHauteur, sonDebDessin;
     final int sonPas = 10, sonTemps=50, sonCote=40;
+    static private semaphoreGeneral mutex = new semaphoreGeneral(1);
 
     UnMobile(int telleLargeur, int telleHauteur)
     {
@@ -16,32 +17,27 @@ class UnMobile extends JPanel implements Runnable
 
     public void run()
     {
-        boolean toTheRight = true;
         sonDebDessin = 0;
-        while (true)
+
+        mutex.syncWait();
+        for (; sonDebDessin < saLargeur * 0.33; sonDebDessin++)
         {
             repaint();
             try {Thread.sleep(sonTemps);}
             catch (InterruptedException telleExcp)
                 {telleExcp.printStackTrace();}
 
-            if (toTheRight)
-                if (sonDebDessin < saLargeur - sonPas)
-                    sonDebDessin += sonPas;
-                else
-                {
-                    toTheRight = false;
-                    sonDebDessin -= sonPas;
-                }
-            else
-                if (sonDebDessin > sonPas)
-                    sonDebDessin -= sonPas;
-                else
-                {
-                    toTheRight = true;
-                    sonDebDessin += sonPas;
-                }
-        }
+        }// for()
+
+        mutex.syncSignal();
+        for (; sonDebDessin < saLargeur * 0.66; sonDebDessin++)
+        {
+            repaint();
+            try {Thread.sleep(sonTemps);}
+            catch (InterruptedException telleExcp)
+                {telleExcp.printStackTrace();}
+
+        }// for()
     }
 
     public void paintComponent(Graphics telCG)
