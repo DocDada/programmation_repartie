@@ -7,23 +7,24 @@ import java.io.Reader;
 import java.io.BufferedReader;
 import java.lang.String;
 
-class Exclusion {};
+//class Exclusion {};
 
 public class Affichage extends Thread {
 
     String texte;
     // pour que la variable/verrou soit accessible à toutes les
     // instances de la classe
-    static Exclusion mutex = new Exclusion();
-    //static semaphoreBinaire mutex = new semaphoreBinaire(0);
+    //static Exclusion mutex = new Exclusion();
+    static semaphoreBinaire mutex = new semaphoreBinaire(1);
 
     public Affichage(String txt) {
         texte = txt;
     }
 
     public void run() {
-        synchronized(mutex) {
+        //synchronized(mutex) {
             System.out.println("J'entre en section critique");
+            mutex.syncWait();
 
             for (int i = 0; i != texte.length(); i++){
                 // on affiche le texte, caractère par caractère
@@ -35,8 +36,9 @@ public class Affichage extends Thread {
                 catch (InterruptedException e) {};
             }
 
+            mutex.syncSignal();
             System.out.println("\nJe sors de section critique");
-        }// synchronized()
+        //}// synchronized()
     }// run()
 }// Thread
 
