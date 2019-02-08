@@ -15,6 +15,8 @@ public class Affichage extends Thread{
 	public void run(){
 
 		for (int i=0; i<texte.length(); i++){
+            // on affiche le texte, caractère par caractère
+            // section critique
 		    System.out.print(texte.charAt(i));
 		    try {sleep(100);} catch(InterruptedException e){};
 		}
