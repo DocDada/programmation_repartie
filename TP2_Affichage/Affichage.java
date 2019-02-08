@@ -7,15 +7,15 @@ import java.io.Reader;
 import java.io.BufferedReader;
 import java.lang.String;
 
-// class Exclusion {};
+class Exclusion {};
 
 public class Affichage extends Thread {
 
     String texte;
     // pour que la variable/verrou soit accessible à toutes les
     // instances de la classe
-    // static Exclusion mutex = new Exclusion();
-    static semaphoreBinaire mutex = new semaphoreBinaire(0);
+    static Exclusion mutex = new Exclusion();
+    //static semaphoreBinaire mutex = new semaphoreBinaire(0);
 
     public Affichage(String txt) {
         texte = txt;
