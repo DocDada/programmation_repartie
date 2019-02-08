@@ -6,14 +6,15 @@ import java.lang.String;
 
 public class Main {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Affichage TA = new Affichage("AAA");
-		Affichage TB = new Affichage("BB");
+    public static void main(String[] args) {
+        Affichage TA = new Affichage("AAA");
+        Affichage TB = new Affichage("BB");
 
-		TB.start();
+        // section critique
+        TB.start();
 
-		TA.start();
-	}
+        TA.start();
+        // fin section critique
+    }
 
 }
