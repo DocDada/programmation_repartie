@@ -1,3 +1,4 @@
+package TP1_Mobile;
 //programme d'un mobile se deplacant de la gauche vers la droite de la fenetre-ecran
 import java.awt.*;
 import javax.swing.*;

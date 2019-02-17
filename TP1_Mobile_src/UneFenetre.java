@@ -1,15 +1,17 @@
+package TP1_Mobile; 
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 
 class UneFenetre extends JFrame implements ActionListener
 {
-    private final int ROWS = 3, COLS = 1, MOBILES = ROWS;
+    private final int ROWS = 5, COLS = 1, MOBILES = ROWS;
     UnMobile[] mobiles;
     Thread tasks[];
-    private String buttonText = "Arrêt / Relance";
 
-    private final int LARG=400, HAUT=250;
+    private final int LARG=500, HAUT=250;
     private final int LARGEUR_FENETRE = 900, LONGUEUR_FENETRE = 700;
 
     public UneFenetre()
@@ -39,6 +41,8 @@ class UneFenetre extends JFrame implements ActionListener
 
         this.setSize(LARGEUR_FENETRE, LONGUEUR_FENETRE);
     }
+
+
 
     public void actionPerformed(ActionEvent e) { }
 }

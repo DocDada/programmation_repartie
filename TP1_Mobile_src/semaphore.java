@@ -1,3 +1,4 @@
+package TP2_Affichage;
 public abstract class semaphore {
 
     protected int valeur = 0;
