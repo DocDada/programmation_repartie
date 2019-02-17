@@ -4,6 +4,7 @@
 
 Création d'un Thread, avec la classe *Thread*. On associe à un Thread un objet.
 La méthode *start()* exécute le Thread. Si l'objet a implémenté l'interface *Runnable* (avec la méthode *run()*), la méthode *run()* est appelée.
+Note : l'appel de la méthode run() exécute le code de la méthode, mais ne crée le thread.
 Le Thread peut être arreté/bloqué avec la méthode *suspend()* (déprécié) et relancé avec la méthode *resume()*.
 Une autre façon de créer un Thread, est pour l'objet d'hériter de Thread (en implémentant la méthode *run()*).
 
