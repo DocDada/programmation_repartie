@@ -49,16 +49,25 @@ Dans *synchronized()*, les appels des méthodes *Wait()* et *Signal()* sont auto
 On peut toutefois entourer la section critique, sans avoir besoin du bloc *synchronized()*.
 Pour ce faire, on appelle des méthodes type wait et signal qui doivent spécifier dans leur en-tête :
 ```Java
-public synchronized void nomMethode() {
-    // some code
+public synchronized void syncSignal() {
+    if (++valeur > 0) notifyAll();
+}
+
+public synchronized void syncWait() {
+    try {
+        while (valeur <= 0) {
+            wait();
+        }
+        valeur--;
+    }
+    catch (InterruptedException e) {}
 }
 
 // Utilisation des méthodes
 public static void main(String[] args) {
-    waitMethode();
-    // section critique
-    // ...
-    signalMethode();
+    syncWait();
+    /* section critique */
+    syncSignal();
 }
 ```
 
@@ -99,15 +108,13 @@ public class Main
             Producer prod = new Producer(bal);
             Consumer cons = new Consumer(bal);
 
-            System.out.println("-------------");
-
             prod.start();
             cons.start();
 
             prod.join();
             cons.join();
         }
-        catch (InterruptedException e) {;}
+        catch (InterruptedException e) {}
     }
 }
 ```
@@ -120,10 +127,13 @@ public synchronized boolean DEPOSER(char letter) {
     /* ... */
 }
 
-public synchronized char RETIRER_char() {
+public synchronized char RETIRER() {
     /* ... */
 }
 ```
+
+
+Pour terminer proprement la lecture et l'écriture, la ressource peut avoir un champs booléen indiquant son utilisation. Les méthodes DEPOSER et RETIRER retournent une valeur pour indiquer la terminaison des processus.
 
 
 ### Sources
