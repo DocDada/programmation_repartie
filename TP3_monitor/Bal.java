@@ -1,48 +1,71 @@
+import java.util.Arrays;
 
 public class Bal
 {
+    private int nbLetters = 28;
+    private int head = 0;
+    private int queue = 0;
+
+    private char letters[];
     private String letter;
     private boolean empty = true;
+    private boolean empty_slot[];
+
+    private boolean quit = false;
 
     public Bal()
     {
+        this.letters = new char[nbLetters];
+        this.empty_slot = new boolean[nbLetters];
+        Arrays.fill(this.empty_slot, Boolean.TRUE);
     }
 
-    public synchronized void DEPOSER(String letter)
+
+
+    public synchronized boolean DEPOSER(char letter)
     {
-        while (!empty)
+        if (quit) return true;
+
+        while (!empty_slot[head])
         {
-        try
-        {
-            wait();
-        }
-        catch (InterruptedException e) {;}
+            try
+            {
+                wait();
+            }
+            catch (InterruptedException e) {;}
         }
 
-        //System.out.println("LETTRE DEPOSE");
-        this.letter = letter;
+        System.out.println("LETTRE DEPOSE");
+        this.letters[head] = letter;
+        this.head = (head + 1)%nbLetters;
 
-        this.empty = false;
+        this.empty_slot[head - 1] = false;
         notifyAll();
 
-        return;
+        if (letter == 'q') quit = true;
+
+        return quit;
     }
 
-    public synchronized String RETIRER()
+
+
+    public synchronized char RETIRER_char()
     {
-        while (empty)
+        if (quit) return 'Q';
+        while (empty_slot[queue])
         {
-        try
-        {
-            wait();
-        }
-        catch (InterruptedException e) {;}
+            try
+            {
+                wait();
+            }
+            catch (InterruptedException e) {;}
         }
 
-        //System.out.println("LETTRE LUE");
-        String letter = this.letter;
-        this.letter = new String();
-        this.empty = true;
+        char letter = this.letters[queue];
+        this.letters[queue] = '\0';
+        this.queue = (queue + 1)%nbLetters;
+
+        this.empty_slot[queue - 1] = true;
         notifyAll();
 
         return letter;
