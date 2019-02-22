@@ -74,15 +74,12 @@ de sémpahore que de ressources.
 Pour une ressource : sémpahore **binaire**. Pour plusieurs : sémaphore **général**.
 
 
-### Sources
-- Cours de José Paumard :
-http://blog.paumard.org/cours/java-api/chap05-concurrent.html
+
 
 
 ## TP3
 
-
-### Introduction
+### Introduction
 
 Comment conceptualiser intelligemment l'accès à une ressource ?
 
@@ -91,9 +88,46 @@ Le **Producer** écrit dans la ressource (ici la boîte à lettres). Le **Consum
 Le Producer et le Consumer sont des tâches, donc des Threads.
 La ressource, critique, n'est pas directement accessible par le Producer et le Consumer.
 
+```Java
+public class Main
+{
+    public static void main(String[] args)
+    {
+        try
+        {
+            Bal bal = new Bal();
+            Producer prod = new Producer(bal);
+            Consumer cons = new Consumer(bal);
+
+            System.out.println("-------------");
+
+            prod.start();
+            cons.start();
+
+            prod.join();
+            cons.join();
+        }
+        catch (InterruptedException e) {;}
+    }
+}
+```
+
 Pour synchroniser les accès, on appose le mot-clef synchronized aux en-têtes des méthodes.
 Un Producer ne peut écrire dans la ressource que si elle n'est pas utilisée par un Consumer, et inversement.
 
+```Java
+public synchronized boolean DEPOSER(char letter) {
+    /* ... */
+}
+
+public synchronized char RETIRER_char() {
+    /* ... */
+}
+```
 
 
-
+### Sources
+- Cours de José Paumard :
+http://blog.paumard.org/cours/java-api/chap05-concurrent.html
+- Cours de Dufaut Thomas
+- Cours de Calcado Fabien
