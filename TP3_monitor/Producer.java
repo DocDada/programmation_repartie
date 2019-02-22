@@ -14,11 +14,19 @@ public class Producer extends Thread
     {
         //String lettre = "MaLettre";
 
-        System.out.println("Ecrivez votre lettre :");
+        /*System.out.println("Ecrivez votre lettre :");
         Scanner scanner = new Scanner(System.in);
         String lettre = scanner.nextLine();
+        this.bal.DEPOSER(lettre);*/
 
-        this.bal.DEPOSER(lettre);
+        boolean quit = false;
+        Scanner scanner = new Scanner(System.in);
+
+        while (!quit)
+        {
+            quit = this.bal.DEPOSER(scanner.next().charAt(0));
+        }
+
     }
 }
 
