@@ -1,6 +1,13 @@
 # programmation_repartie
 
+
+
 ## TP1
+
+### Introduction
+
+Comment exécuter plusieurs tâches en même temps ?
+
 
 Création d'un Thread, avec la classe *Thread*. On associe à un Thread un objet.
 La méthode *start()* exécute le Thread. Si l'objet a implémenté l'interface *Runnable* (avec la méthode *run()*), la méthode *run()* est appelée.
@@ -25,6 +32,12 @@ Documentation java :
 
 ## TP2
 
+### Introduction
+
+ Comment gérer l'accès à une ressource
+qui peut être utlisée par plusieurs tâches en même temps ?
+
+
 Création de sémaphore/mutex et d'une section critique. La section critique est
 entouré du bloc :
 ```Java
@@ -40,10 +53,13 @@ public synchronized void nomMethode() {
     // some code
 }
 
-// main
-waitMethode();
-// section critique
-signalMethode();
+// Utilisation des méthodes
+public static void main(String[] args) {
+    waitMethode();
+    // section critique
+    // ...
+    signalMethode();
+}
 ```
 
 
@@ -61,3 +77,23 @@ Pour une ressource : sémpahore **binaire**. Pour plusieurs : sémaphore **gén�
 ### Sources
 - Cours de José Paumard :
 http://blog.paumard.org/cours/java-api/chap05-concurrent.html
+
+
+## TP3
+
+
+### Introduction
+
+Comment conceptualiser intelligemment l'accès à une ressource ?
+
+Implémentation du **Design Pattern Producteur/Consommateur**.
+Le **Producer** écrit dans la ressource (ici la boîte à lettres). Le **Consumer** lit dans la ressource.
+Le Producer et le Consumer sont des tâches, donc des Threads.
+La ressource, critique, n'est pas directement accessible par le Producer et le Consumer.
+
+Pour synchroniser les accès, on appose le mot-clef synchronized aux en-têtes des méthodes.
+Un Producer ne peut écrire dans la ressource que si elle n'est pas utilisée par un Consumer, et inversement.
+
+
+
+
