@@ -1,4 +1,5 @@
 import java.lang.Thread;
+import java.util.Scanner;
 
 public class Producer extends Thread
 {
