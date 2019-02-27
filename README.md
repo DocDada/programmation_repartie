@@ -1,27 +1,45 @@
 # Distributed Computing
 
-------------
+
 
 Repain Paul
+
 DUT INFO 2
+
 2018 - 2019
+
 IUT de Vélizy
 
-------------
+
+<hr />
+
 
 Sommaire
 
 [TP1](#tp1)
+
 [TP2](#tp2)
+
 [TP3](#tp3)
 
-------------
+[Sources](#sources)
+
+
+<hr />
 
 ## TP1
 
-#### Introduction
 
-Comment exécuter plusieurs tâches en même temps ?
+
+Problématique : Comment exécuter plusieurs tâches en même temps ?
+
+
+
+- Création d'un thread, lancement
+- Etats d'un processus
+- Rappels et définitions
+- Diagramme UML de l'application
+
 
 
 Création d'un Thread, avec la classe *Thread*. On associe à un Thread un objet, on le passe en argument à l'appel de son constructeur.
@@ -49,39 +67,48 @@ Un **processus** est un programme en cours d'exécution. Il possède son propre 
 Un **thread** est un processus avec un espace mémoire partagé (dit processus "léger").
 
 
-![Diagramme UML du TP1](tp1.png?raw=true "Figure 1")
+![Diagramme UML du TP1](https://github.com/Poulpy/programmation_repartie/blob/master/tp1.png?raw=true "Figure 1")
 
 
 Documentation java :
 - [Thread](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html)
 - [Runnable](https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html)
 
-------------
+<hr />
 
 
 ## TP2
 
-#### Introduction
 
-Comment gérer l'accès à une ressource
-qui peut être utlisée par plusieurs tâches en même temps ?
+Problématique : Comment gérer l'accès à une ressource qui peut être utlisée par plusieurs tâches en même temps ?
 
 
-Création de sémaphore/mutex et d'une section critique. La section critique est
-entourée du bloc *synchronized()* :
+- Création d'une section critique avec *synchronized*
+- Création d'un sémaphore et appels des méthodes *wait()* et *signal()*
+
+
+Création de sémaphore/mutex et d'une section critique. La section critique est entourée du bloc *synchronized()* :
 
 ```Java
 synchronized(mutex) {
     /* section critique */
 }
 ```
+
 L'objet passé en paramètre fait office de verrou, de clé. Un processus ne rentre dans le bloc que s'il a la clé.
+L'objet est accessible par tous processus, donc déclaré *static*. Il s'agit d'un sémaphore.
+
+```Java
+private static Object mutex = new Object();// objet quelconque
+```
 
 Dans *synchronized()*, les appels des méthodes *wait()* et *signal()* sont automatiques.
 On donc entourer la section critique, sans avoir besoin du bloc *synchronized()*, en utilisant les méthodes
-*wait()* et *signal()* (*notifyAll()*).
+*wait()* et *signal()* (*notifyAll()*). Ces méthodes sont définies dans une interface semaphore :
 
 ```Java
+
+/* Interface semaphore */
 public synchronized void syncSignal() {
     if (++valeur > 0) notifyAll();
 }
@@ -111,19 +138,19 @@ public static void main(String[] args) {
 Une **section critique** est un bloc de code pouvant être exécuté par plusieurs threads.
 Un **ressource critique** est une ressource accessible pouvant être accessible par plusieurs thread à la fois (i.e. STDIN).
 Un **sémaphore** est un verrou, qui limite l'accès à un bloc de code, une ressource.
-Utilisé lorsque la ressource est critique. On utilise autant
-de sémpahore que de ressources.
+Utilisé lorsque la ressource est critique. On utilise autant de sémpahore que de ressources.
 Pour une ressource : sémpahore **binaire**. Pour plusieurs : sémaphore **général**.
 
 
-------------
+<hr />
 
 
 ## TP3
 
 #### Introduction
 
-Comment conceptualiser intelligemment l'accès à une ressource ?
+Problématique : Comment conceptualiser intelligemment l'accès à une ressource ?
+
 
 
 Implémentation du **Design Pattern Producteur/Consommateur** :mailbox_with_no_mail:
@@ -174,13 +201,14 @@ public synchronized char RETIRER() {
 ```
 
 
-![Diagramme UML du TP3](tp3.png?raw=true "Figure 2")
+![Diagramme UML du TP3](https://github.com/Poulpy/programmation_repartie/blob/master/tp3.png?raw=true "Figure 2")
 
 
-------------
+<hr />
 
 
 #### Sources
+
 - [Cours de José Paumard](http://blog.paumard.org/cours/java-api/chap05-concurrent.html)
 - Cours de Dufaut Thomas
 - Cours de Calcado Fabien
