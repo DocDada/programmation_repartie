@@ -212,3 +212,5 @@ public synchronized char RETIRER() {
 - [Cours de José Paumard](http://blog.paumard.org/cours/java-api/chap05-concurrent.html)
 - Cours de Dufaud Thomas
 - Cours de Calcado Fabien
+- [Lien vers le repository Git](https://github.com/Poulpy/programmation_repartie)
+
