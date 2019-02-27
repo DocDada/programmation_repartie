@@ -66,8 +66,11 @@ Un processus a 4 états :
 Un **processus** est un programme en cours d'exécution. Il possède son propre espace d'adressage/espace mémoire.
 Un **thread** est un processus avec un espace mémoire partagé (dit processus "léger").
 
-
+<figure>
+    
 ![Diagramme UML du TP1](https://github.com/Poulpy/programmation_repartie/blob/master/tp1.png?raw=true "Figure 1")
+    <figcaption>Figure 1</figcaption>
+</figure>
 
 
 Documentation java :
@@ -200,9 +203,12 @@ public synchronized char RETIRER() {
 }
 ```
 
+<figure>
 
 ![Diagramme UML du TP3](https://github.com/Poulpy/programmation_repartie/blob/master/tp3.png?raw=true "Figure 2")
 
+<figcaption>Figure 2</figcaption>
+</figure>
 
 <hr />
 
