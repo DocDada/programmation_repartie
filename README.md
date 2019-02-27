@@ -210,5 +210,5 @@ public synchronized char RETIRER() {
 #### Sources
 
 - [Cours de José Paumard](http://blog.paumard.org/cours/java-api/chap05-concurrent.html)
-- Cours de Dufaut Thomas
+- Cours de Dufaud Thomas
 - Cours de Calcado Fabien
