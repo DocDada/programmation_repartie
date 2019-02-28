@@ -98,16 +98,20 @@ synchronized(mutex) {
 }
 ```
 
-L'objet passé en paramètre fait office de verrou, de clé. Un processus ne rentre dans le bloc que s'il a la clé.
-L'objet est accessible par tous processus, donc déclaré *static*. Il s'agit d'un sémaphore.
+synchronized() rend le bloc de code entouré **atomique**.
+L'objet passé en paramètre fait office de clé. Un processus ne rentre dans le bloc que s'il a la clé.
+L'objet est accessible par tous processus, donc déclaré *static*. Il s'agit d'un sémaphore binaire.
 
 ```Java
 private static Object mutex = new Object();// objet quelconque
 ```
 
-Dans *synchronized()*, les appels des méthodes *wait()* et *signal()* sont automatiques.
+Dans *synchronized()*, les appels des méthodes *wait()* et *signal()* sont automatiques (début et fin de bloc).
 On donc entourer la section critique, sans avoir besoin du bloc *synchronized()*, en utilisant les méthodes
-*wait()* et *signal()* (*notifyAll()*). Ces méthodes sont définies dans une interface semaphore :
+*wait()* et *signal()* (*notifyAll()*).
+
+Toutefois ces méthodes ne sont pas atomiques. On peut donc les rendre atomiques en les appelant dans des méthodes
+*synchronized*. Ces méthodes sont définies dans une interface semaphore :
 
 ```Java
 
@@ -126,11 +130,13 @@ public synchronized void syncWait() {
     catch (InterruptedException e) {}
 }
 
+/* Classe Affichage */
 /* Utilisation des méthodes */
-public static void main(String[] args) {
-    syncWait();
+public vois run() {
+    static semaphoreBinaire mutex = new semaphoreBinaire(1);
+    mutex.syncWait();
     /* section critique */
-    syncSignal();
+    mutex.syncSignal();
 }
 ```
 
@@ -138,8 +144,9 @@ public static void main(String[] args) {
 - *wait()* => *P()* -> décrémentation du sémaphore
 - *signal()* => *V()* -> incrémentation du sémaphore
 
-Une **section critique** est un bloc de code pouvant être exécuté par plusieurs threads.
-Un **ressource critique** est une ressource accessible pouvant être accessible par plusieurs thread à la fois (i.e. STDIN).
+Une **section critique** est un bloc de code devant être exécuté par un seul thread.
+Un **ressource critique** est une ressource accessible devant être accessible par plusieurs thread à la fois (i.e. STDIN).
+Une opération **atomique** est une tâche qui ne peut être interrompue
 Un **sémaphore** est un verrou, qui limite l'accès à un bloc de code, une ressource.
 Utilisé lorsque la ressource est critique. On utilise autant de sémpahore que de ressources.
 Pour une ressource : sémpahore **binaire**. Pour plusieurs : sémaphore **général**.
@@ -219,4 +226,4 @@ public synchronized char RETIRER() {
 - Cours de Dufaud Thomas
 - Cours de Calcado Fabien
 - [Lien vers le repository Git](https://github.com/Poulpy/programmation_repartie)
-
+- Wikipédia
