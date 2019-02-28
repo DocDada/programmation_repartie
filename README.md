@@ -98,7 +98,7 @@ synchronized(mutex) {
 }
 ```
 
-synchronized() rend le bloc de code entouré **atomique**.
+synchronized() rend le bloc de code entouré **atomique**.<br />
 L'objet passé en paramètre fait office de clé. Un processus ne rentre dans le bloc que s'il a la clé.
 L'objet est accessible par tous processus, donc déclaré *static*. Il s'agit d'un sémaphore binaire.
 
@@ -108,8 +108,7 @@ private static Object mutex = new Object();// objet quelconque
 
 Dans *synchronized()*, les appels des méthodes *wait()* et *signal()* sont automatiques (début et fin de bloc).
 On donc entourer la section critique, sans avoir besoin du bloc *synchronized()*, en utilisant les méthodes
-*wait()* et *signal()* (*notifyAll()*).
-
+*wait()* et *signal()* (*notifyAll()*).<br />
 Toutefois ces méthodes ne sont pas atomiques. On peut donc les rendre atomiques en les appelant dans des méthodes
 *synchronized*. Ces méthodes sont définies dans une interface semaphore :
 
@@ -144,10 +143,10 @@ public vois run() {
 - *wait()* => *P()* -> décrémentation du sémaphore
 - *signal()* => *V()* -> incrémentation du sémaphore
 
-Une **section critique** est un bloc de code devant être exécuté par un seul thread.
-Un **ressource critique** est une ressource accessible devant être accessible par plusieurs thread à la fois (i.e. STDIN).
-Une opération **atomique** est une tâche qui ne peut être interrompue
-Un **sémaphore** est un verrou, qui limite l'accès à un bloc de code, une ressource.
+Une **section critique** est un bloc de code devant être exécuté par un seul thread.<br />
+Un **ressource critique** est une ressource accessible devant être accessible par plusieurs thread à la fois (i.e. STDIN).<br />
+Une opération **atomique** est une tâche qui ne peut être interrompue.<br />
+Un **sémaphore** est un verrou, qui limite l'accès à un bloc de code, une ressource.<br />
 Utilisé lorsque la ressource est critique. On utilise autant de sémpahore que de ressources.
 Pour une ressource : sémpahore **binaire**. Pour plusieurs : sémaphore **général**.
 
@@ -162,12 +161,17 @@ Pour une ressource : sémpahore **binaire**. Pour plusieurs : sémaphore **gén�
 Problématique : Comment conceptualiser intelligemment l'accès à une ressource ?
 
 
+- Fonctionnement du Design Pattern Producteur/Consommateur
+- Implémentation des méthodes de lecture et d'écriture dans la ressource critique
 
-Implémentation du **Design Pattern Producteur/Consommateur** :mailbox_with_no_mail:
+
+
+
+Implémentation du **Design Pattern Producteur/Consommateur** :mailbox_with_no_mail:<br />
 Le **Producer** écrit dans la ressource (ici la boîte à lettres). Le **Consumer** lit dans la ressource.
 La Bal (Boîte à lettres) contientla ressource écrite par Le Producer et lue par le Consumer.
 
-Le Producer et le Consumer sont des tâches, donc des Threads.
+Le Producer et le Consumer sont des tâches, donc des Threads.<br />
 La ressource, critique, n'est pas directement accessible par le Producer et le Consumer.
 
 ```Java
@@ -193,16 +197,41 @@ public class Main
 }
 ```
 
-Pour synchroniser les accès, on appose le mot-clef synchronized aux en-têtes des méthodes.
-Un Producer ne peut écrire dans la ressource que si elle n'est pas actuellement utilisée par un Consumer, et inversement.
+La Bal.<br/>Composée d'un tableau de char. Deux indices *head* et *queue* sont utilisés pour écrire et lire dans le tableau.
+Un booléen *quit* est utilisé pour arrêter toute opération dans la Bal. Si *false*, plus d'écriture et de lecture.<br />
+Un tableau de booléen *emptySlot* pour vérifier qu'une case du tableau de char est vide. Pas d'écriture tant que la case est
+à *false*.
 
-Pour quitter le tâche d'écriture, l'utilisateur entre 'q' ; La Bal renvoie un booléen *false* pour le Producer, un caractère 'Q' pour le Consumer, pour terminer proprement les Threads (car la Bal ne peut arrêter elle-même les Threads).
+
+Pour rendre atomique les accès, on appose le mot-clef synchronized aux en-têtes des méthodes.
+Un Producer ne peut écrire dans la ressource que si elle n'est pas actuellement utilisée par un Consumer, et inversement.<br />
+Pour quitter le tâche d'écriture, l'utilisateur entre **'q'** ; La Bal renvoie un booléen *false* pour le Producer, un caractère **'Q'** pour le Consumer, pour terminer proprement les Threads (car la Bal ne peut arrêter elle-même les Threads).
 
 ```Java
 /* Classe Bal */
-/* En-têtes des méthodes DEPOSER et RETIRER */
-public synchronized boolean DEPOSER(char letter) {
-    /* ...  */
+/* méthodes DEPOSER et RETIRER */
+public synchronized boolean DEPOSER(char letter)
+{
+    if (quit) return true;
+
+    while (!empty_slot[head])// on attend que la Bal soit vide
+    {
+        try
+        {
+            wait();
+        }
+        catch (InterruptedException e) {;}
+    }
+
+    this.letters[head] = letter;// on écrit la lettre
+    this.head = (head + 1)%nbLetters;// on déplace l'indice
+
+    this.empty_slot[head - 1] = false;// la Bal n'est plus vide
+    notifyAll();
+
+    if (letter == 'q') quit = true;// on arrête toute opération dans la Bal
+
+    return quit;// indique au thread s'il doit continuer à écrire
 }
 
 public synchronized char RETIRER() {
