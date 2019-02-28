@@ -90,7 +90,7 @@ Problématique : Comment gérer l'accès à une ressource qui peut être utlisé
 - Création d'un sémaphore et appels des méthodes *wait()* et *signal()*
 
 
-Création de sémaphore/mutex et d'une section critique. La section critique est entourée du bloc *synchronized()* :
+Création d'une section critique. La section critique est entourée du bloc *synchronized()* :
 
 ```Java
 synchronized(mutex) {
@@ -168,8 +168,8 @@ Problématique : Comment conceptualiser intelligemment l'accès à une ressource
 
 
 Implémentation du **Design Pattern Producteur/Consommateur** :mailbox_with_no_mail:<br />
-Le **Producer** écrit dans la ressource (ici la boîte à lettres). Le **Consumer** lit dans la ressource.
-La Bal (Boîte à lettres) contientla ressource écrite par Le Producer et lue par le Consumer.
+Le **Producer** écrit dans la ressource. Le **Consumer** lit dans la ressource.
+La Bal (Boîte à lettres) contient la ressource écrite par Le Producer et lue par le Consumer.
 
 Le Producer et le Consumer sont des tâches, donc des Threads.<br />
 La ressource, critique, n'est pas directement accessible par le Producer et le Consumer.
