@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 /* Monitor */
 public class Bal
 {
-    private int nbLetters = 25;
+    private int nbLetters = 15;
     private BlockingQueue<Character> letters = new ArrayBlockingQueue<Character>(nbLetters);
 
     public Bal()

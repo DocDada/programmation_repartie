@@ -12,17 +12,15 @@ public class Producer extends Thread
 
     public void run()
     {
-        //boolean b;
+        char lettre = 'a';
+        Scanner input = new Scanner(System.in);
         try
         {
-            for (char a = 'a'; a!='z';a++)
+            while (lettre != 'q')
             {
-                bal.deposer(a);
-                System.out.println("Lettre " + a + " déposé");
-                /*if (b)
-                    System.out.println("Lettre " + a + " déposé");
-                else
-                    System.out.println("Boîte à lettre pleine");*/
+                lettre = input.next().charAt(0);
+                bal.deposer(lettre);
+                System.out.println("Lettre " + lettre + " déposé");
             }
         }
         catch (InterruptedException e) {}

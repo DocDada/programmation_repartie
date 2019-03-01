@@ -17,6 +17,8 @@ public class Consumer extends Thread
         {
             while (lettre != 'q')
             {
+                // Le lecteur attend un peu pour pouvoir lire
+                Thread.sleep(5000);
                 lettre = bal.retirer();
                 System.out.println("Lettre " + lettre + " lue");
             }
