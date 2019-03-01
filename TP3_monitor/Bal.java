@@ -6,10 +6,11 @@ import java.util.concurrent.BlockingQueue;
 public class Bal
 {
     private int nbLetters = 15;
-    private BlockingQueue<Character> letters = new ArrayBlockingQueue<Character>(nbLetters);
+    private BlockingQueue<Character> letters;
 
     public Bal()
     {
+        letters = new ArrayBlockingQueue<Character>(nbLetters);
     }
 
     public void deposer(char letter) throws InterruptedException
