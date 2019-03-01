@@ -12,20 +12,20 @@ public class Producer extends Thread
 
     public void run()
     {
-        //String lettre = "MaLettre";
-
-        /*System.out.println("Ecrivez votre lettre :");
-        Scanner scanner = new Scanner(System.in);
-        String lettre = scanner.nextLine();
-        this.bal.DEPOSER(lettre);*/
-
-        boolean quit = false;
-        Scanner scanner = new Scanner(System.in);
-
-        while (!quit)
+        //boolean b;
+        try
         {
-            quit = this.bal.DEPOSER(scanner.next().charAt(0));
+            for (char a = 'a'; a!='z';a++)
+            {
+                bal.deposer(a);
+                System.out.println("Lettre " + a + " déposé");
+                /*if (b)
+                    System.out.println("Lettre " + a + " déposé");
+                else
+                    System.out.println("Boîte à lettre pleine");*/
+            }
         }
+        catch (InterruptedException e) {}
 
     }
 }

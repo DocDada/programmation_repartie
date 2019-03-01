@@ -12,14 +12,16 @@ public class Consumer extends Thread
 
     public void run()
     {
-        char quit = 'a';
-        /*String lettre = this.bal.RETIRER();
-        System.out.println("LECTURE : " + lettre);*/
-        while (quit != 'Q')
+        char lettre = 'a';
+        try
         {
-            quit = this.bal.RETIRER_char();
-            System.out.println("LECTURE : " + quit);
+            while (lettre != 'q')
+            {
+                lettre = bal.retirer();
+                System.out.println("Lettre " + lettre + " lue");
+            }
         }
+        catch (InterruptedException e) {}
     }
 }
 
