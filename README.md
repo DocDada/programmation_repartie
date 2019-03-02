@@ -263,6 +263,8 @@ public class Consumer extends Thread
 
 <figure>
 <figcaption>Figure 2 : Diagramme UML du TP3, Design Pattern Producteur/Consommateur (précédente implémentation)</figcaption>
+
+
 ![Diagramme UML du TP3](https://github.com/Poulpy/programmation_repartie/blob/master/tp3.png?raw=true "Figure 2")
 
 
