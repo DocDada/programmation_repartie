@@ -67,9 +67,9 @@ Un **processus** est un programme en cours d'exécution. Il possède son propre 
 Un **thread** est un processus avec un espace mémoire partagé (dit processus "léger").
 
 <figure>
+    <figcaption>Figure 1 : Diagramme UML du TP1, déplacement de mobiles dans une fenêtre, mobiles attachés à des Threads</figcaption>
     
 ![Diagramme UML du TP1](https://github.com/Poulpy/programmation_repartie/blob/master/tp1.png?raw=true "Figure 1")
-    <figcaption>Figure 1</figcaption>
 </figure>
 
 
@@ -197,53 +197,75 @@ public class Main
 }
 ```
 
-La Bal.<br/>Composée d'un tableau de char. Deux indices *head* et *queue* sont utilisés pour écrire et lire dans le tableau.
-Un booléen *quit* est utilisé pour arrêter toute opération dans la Bal. Si *false*, plus d'écriture et de lecture.<br />
-Un tableau de booléen *emptySlot* pour vérifier qu'une case du tableau de char est vide. Pas d'écriture tant que la case est
-à *false*.
-
-
-Pour rendre atomique les accès, on appose le mot-clef synchronized aux en-têtes des méthodes.
-Un Producer ne peut écrire dans la ressource que si elle n'est pas actuellement utilisée par un Consumer, et inversement.<br />
-Pour quitter le tâche d'écriture, l'utilisateur entre **'q'** ; La Bal renvoie un booléen *false* pour le Producer, un caractère **'Q'** pour le Consumer, pour terminer proprement les Threads (car la Bal ne peut arrêter elle-même les Threads).
+La Bal est composée d'une file d'attente, **ArrayBlockingQueue**, avec une taille limité.
+Pour déposer et retirer des lettres on utilise des méthodes déjà implémentées dans la classe, *put()* et *take()*. On dépose une lettre que si la file n'est pas pleine, et on retire une lettre que si elle n'est pas
+vide.
 
 ```Java
-/* Classe Bal */
-/* méthodes DEPOSER et RETIRER */
-public synchronized boolean DEPOSER(char letter)
+/* Monitor */
+public class Bal
 {
-    if (quit) return true;
+    private int nbLetters = 15;
+    private BlockingQueue<Character> letters;
 
-    while (!empty_slot[head])// on attend que la Bal soit vide
+    public Bal()
     {
-        try
-        {
-            wait();
-        }
-        catch (InterruptedException e) {;}
+        letters = new ArrayBlockingQueue<Character>(nbLetters);
     }
 
-    this.letters[head] = letter;// on écrit la lettre
-    this.head = (head + 1)%nbLetters;// on déplace l'indice
+    public void deposer(char letter) throws InterruptedException
+    {
+        letters.put(letter);
+    }
 
-    this.empty_slot[head - 1] = false;// la Bal n'est plus vide
-    notifyAll();
-
-    if (letter == 'q') quit = true;// on arrête toute opération dans la Bal
-
-    return quit;// indique au thread s'il doit continuer à écrire
+    public char retirer() throws InterruptedException
+    {
+        return letters.take();
+    }
 }
+```
 
-public synchronized char RETIRER() {
-    /* ... */
+
+
+
+Un Producer ne peut écrire dans la ressource que si elle n'est pas actuellement utilisée par un Consumer, et inversement.<br />
+Pour quitter la tâche d'écriture, l'utilisateur entre 'q'. La tâche d'écriture s'arrête quand la lettre 'q' est lue (donc pas forcément en même temps).
+
+
+```Java
+/* Classe Consumer */
+public class Consumer extends Thread
+{
+    private Bal bal;// boite à lettres
+
+    public Consumer(Bal bal)
+    {
+        this.bal = bal;
+    }
+
+    public void run()
+    {
+        char lettre = 'a';
+        try
+        {
+            while (lettre != 'q')
+            {
+                // Le lecteur attend un peu pour pouvoir lire
+                Thread.sleep(5000);
+                lettre = bal.retirer();
+                System.out.println("Lettre " + lettre + " lue");
+            }
+        }
+        catch (InterruptedException e) {}
+    }
 }
 ```
 
 <figure>
-
+<figcaption>Figure 2 : Diagramme UML du TP3, Design Pattern Producteur/Consommateur (précédente implémentation)</figcaption>
 ![Diagramme UML du TP3](https://github.com/Poulpy/programmation_repartie/blob/master/tp3.png?raw=true "Figure 2")
 
-<figcaption>Figure 2</figcaption>
+
 </figure>
 
 <hr />
