@@ -22,6 +22,8 @@ Sommaire
 
 [TP3](#tp3)
 
+[TP4](#tp4)
+
 [Sources](#sources)
 
 
@@ -164,6 +166,10 @@ Problématique : Comment conceptualiser intelligemment l'accès à une ressource
 - Fonctionnement du Design Pattern Producteur/Consommateur
 - Implémentation des méthodes de lecture et d'écriture dans la ressource critique
 
+###### Rappel de cours
+
+Les files d'attentes sont modélisées en Java par l'interface **BlockingQueue**.
+BlockingQueue a plusieurs implémentations : **ArrayBlockingQueue** et **LinkedBlockingQueue**.<br />
 
 
 
@@ -272,6 +278,48 @@ public class Consumer extends Thread
 
 <hr />
 
+## TP 4
+
+#### Introduction
+
+Problématique : Comment appliquer la méthode de Monte-Carlo à la programmation parallèle ?
+
+<figure>
+<figcaption>
+Représentation du calcul de la valeur de &pi par rapport du nombre de points aléatoires étant contenus dans un quart de cercle, l'ensemble des possibles étant un carré de côté R.
+</figcaption>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Montecarlo-valeur-pi.svg/320px-Montecarlo-valeur-pi.svg.png" alt="Méthode de Monte-Carlo" />
+</figure>
+
+###### Rappel de cours
+
+2 modèles de parallèlisme
+
+**Parallèlisme de tâches**<br />
+- décomposition d'une tâche en sous-tâches
+- variable protégées entre tâches ou communication par message entre tâches
+
+**Parallèlisme de données**<br />
+- manipulation de structures homogènes (tableau)
+- haut niveau d'expression du parallèlisme
+- découpement des structures sur les processus
+- restructuration des données par communication
+
+Paradigmes de programmation<br />
+Structures d'algorithme pour l'exécution sur une matière parallèle. Un programme est la combinaison de plusieurs paradigmes.
+- parallèlisme de phase
+- itération parallèle
+- pipeline
+- divide & conquer
+- maître / esclave
+- client / serveur
+
+
+
+
+
+<hr />
 
 #### Sources
 
@@ -279,4 +327,4 @@ public class Consumer extends Thread
 - Cours de Dufaud Thomas
 - Cours de Calcado Fabien
 - [Lien vers le repository Git](https://github.com/Poulpy/programmation_repartie)
-- Wikipédia
+- [Article wikipédia sur la méthode de Monte-Carlo](https://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo)
