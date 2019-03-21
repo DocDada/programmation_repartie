@@ -75,9 +75,6 @@ Un **thread** est un processus avec un espace mémoire partagé (dit processus "
 </figure>
 
 
-Documentation java :
-- [Thread](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html)
-- [Runnable](https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html)
 
 <hr />
 
@@ -328,3 +325,15 @@ Structures d'algorithme pour l'exécution sur une matière parallèle. Un progra
 - Cours de Calcado Fabien
 - [Lien vers le repository Git](https://github.com/Poulpy/programmation_repartie)
 - [Article wikipédia sur la méthode de Monte-Carlo](https://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo)
+Documentation java :
+- [Thread](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html)
+- [Runnable](https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html)
+- [Callable](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html)
+- [Queue](https://docs.oracle.com/javase/7/docs/api/java/util/Queue.html)
+- [BlockingQueue](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html)
+- [ArrayBlockingQueue](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ArrayBlockingQueue.html)
+- [ExecutorService](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html)
+- [Future](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html)
+- [FutureTask](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html)
+
+
