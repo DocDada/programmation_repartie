@@ -44,7 +44,7 @@ Problématique : Comment exécuter plusieurs tâches en même temps ?
 
 
 
-Création d'un Thread, avec la classe *Thread*. On associe à un Thread un objet, on le passe en argument à l'appel de son constructeur.
+Création d'un thread, avec la classe *Thread*. On associe à un Thread un objet, on le passe en argument à l'appel de son constructeur.
 ```Java
 /* Création d'un Thread */
 Thread task = new Thread(new UnMobile(LARGEUR, HAUTEUR));
@@ -59,6 +59,15 @@ Le Thread peut être arreté/bloqué avec la méthode *suspend()* (déprécié) 
 Une autre façon de créer un *Thread*, est pour une classe d'hériter de *Thread*.
 *Thread* étend la classe *Runnable*, donc la classe qui hérite de *Thread* doit implémenter la méthode *run()*.
 
+
+
+
+###### Rappels de cours
+
+Mémoire partagée : mémoire répartie entre processus. Les threads ont une mémoire partagée.<br />
+Mémoire distribuée : mémoire répartie entre différentes machines, différents noeuds.<br />
+
+
 Un processus a 4 états :
 - **prêt** : ressources disponibles => *start()*
 - **bloqué** : ressources indisponibles, attente d'accès à une section critique, vérification d'une condition, mise en someille (*synchronized*, *wait()*, *sleep()*)
@@ -69,7 +78,9 @@ Un **processus** est un programme en cours d'exécution. Il possède son propre 
 Un **thread** est un processus avec un espace mémoire partagé (dit processus "léger").
 
 <figure>
-    <figcaption>Figure 1 : Diagramme UML du TP1, déplacement de mobiles dans une fenêtre, mobiles attachés à des Threads</figcaption>
+    <figcaption>
+        Figure 1 : Diagramme UML du TP1, déplacement de mobiles dans une fenêtre, mobiles attachés à des Threads
+    </figcaption>
     
 ![Diagramme UML du TP1](https://github.com/Poulpy/programmation_repartie/blob/master/tp1.png?raw=true "Figure 1")
 </figure>
@@ -142,6 +153,10 @@ public vois run() {
 - *wait()* => *P()* -> décrémentation du sémaphore
 - *signal()* => *V()* -> incrémentation du sémaphore
 
+
+
+###### Rappels de cours
+
 Une **section critique** est un bloc de code devant être exécuté par un seul thread.<br />
 Un **ressource critique** est une ressource accessible devant être accessible par plusieurs thread à la fois (i.e. STDIN).<br />
 Une opération **atomique** est une tâche qui ne peut être interrompue.<br />
@@ -162,11 +177,6 @@ Problématique : Comment conceptualiser intelligemment l'accès à une ressource
 
 - Fonctionnement du Design Pattern Producteur/Consommateur
 - Implémentation des méthodes de lecture et d'écriture dans la ressource critique
-
-###### Rappel de cours
-
-Les files d'attentes sont modélisées en Java par l'interface **BlockingQueue**.
-BlockingQueue a plusieurs implémentations : **ArrayBlockingQueue** et **LinkedBlockingQueue**.<br />
 
 
 
@@ -270,8 +280,19 @@ public class Consumer extends Thread
 
 ![Diagramme UML du TP3](https://github.com/Poulpy/programmation_repartie/blob/master/tp3.png?raw=true "Figure 2")
 
-
 </figure>
+
+
+
+###### Rappels de cours
+
+Les files d'attentes sont modélisées en Java par l'interface **BlockingQueue**.
+BlockingQueue a plusieurs implémentations : **ArrayBlockingQueue** et **LinkedBlockingQueue** (files FIFO).
+<br />
+Un **monitor** est un objet de synchronisation qui permet :
+- l'exclusion mutuelle ;
+- d'attendre qu'une condition soit validée.
+C'est une structure de données permettant de rassembler toutes les opérations de synchronisation.
 
 <hr />
 
@@ -312,8 +333,39 @@ Structures d'algorithme pour l'exécution sur une matière parallèle. Un progra
 - maître / esclave
 - client / serveur
 
+<br />
 
+**ExecutorService** est une interface gérant des piscines (*pool*) de Threads, un nombre limité de Threads. Elle est implémentée par la classe Executor.
+```Java
+Executor executor = Executors.newFixedThreadPool(10);
+executor.execute(new RunnableTask());/* exécution de la tâche */
+```
 
+**Callable<V>** est une interface modélisant une tâche, retournant une valeur.
+    
+```Java
+Callable<Long> callable = new Worker();/* Classe implémentant Callable */
+callable.call();// récupération de la valeur
+```
+
+**Future<V>** est une interface modélisant une tâche exécutée de façon asynchrone.
+    
+```Java
+Future<Long> future = callable;
+future.get();/* exécution de la tâche */
+```
+    
+**AtomicInteger** est une classe modélisant un entier, dont les opérations sont atomiques.
+```Java
+AtomicInteger aInteger = new AtomicInteger(30);
+aInteger.incrementAndGet();
+aInteger.getAndAdd(5);
+```
+
+Un **générique**, ou une classe **typée**, est une classe qui utilise des typages comme paramètres. A pour but de réduire les transtypages (cast) dans le code et le rendre plus lisible.
+```Java
+Object<String> object = new Object<String>();
+```
 
 
 <hr />
@@ -325,7 +377,7 @@ Structures d'algorithme pour l'exécution sur une matière parallèle. Un progra
 - Cours de Calcado Fabien
 - [Lien vers le repository Git](https://github.com/Poulpy/programmation_repartie)
 - [Article wikipédia sur la méthode de Monte-Carlo](https://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo)
-Documentation java :
+<br/>Documentation java :
 - [Thread](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html)
 - [Runnable](https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html)
 - [Callable](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html)
